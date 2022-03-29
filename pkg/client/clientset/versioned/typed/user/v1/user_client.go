@@ -35,8 +35,8 @@ type StableV1Client struct {
 	restClient rest.Interface
 }
 
-func (c *StableV1Client) Users(namespace string) UserInterface {
-	return newUsers(c, namespace)
+func (c *StableV1Client) Users() UserInterface {
+	return newUsers(c)
 }
 
 // NewForConfig creates a new StableV1Client for the given config.

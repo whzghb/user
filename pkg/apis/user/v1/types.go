@@ -5,18 +5,24 @@ import (
 )
 
 // +genclient
-// +genclient:noStatus
+// +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              UserSpec `json:"spec"`
+	Status            UserStatus `json:"status"`
 }
 
 type UserSpec struct {
-	email   string `json:"email"`
-	password string `json:"password"`
+	Email   string `json:"email"`
+	Password string `json:"password"`
+}
+
+type UserStatus struct {
+	IsLogin  string  `json:"isLogin"`
+	LastLogTime  string  `json:"lastLogTime"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

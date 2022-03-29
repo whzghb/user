@@ -33,13 +33,14 @@ import (
 // UsersGetter has a method to return a UserInterface.
 // A group's client should implement this interface.
 type UsersGetter interface {
-	Users(namespace string) UserInterface
+	Users() UserInterface
 }
 
 // UserInterface has methods to work with User resources.
 type UserInterface interface {
 	Create(ctx context.Context, user *v1.User, opts metav1.CreateOptions) (*v1.User, error)
 	Update(ctx context.Context, user *v1.User, opts metav1.UpdateOptions) (*v1.User, error)
+	UpdateStatus(ctx context.Context, user *v1.User, opts metav1.UpdateOptions) (*v1.User, error)
 	Delete(ctx context.Context, name string, opts metav1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts metav1.DeleteOptions, listOpts metav1.ListOptions) error
 	Get(ctx context.Context, name string, opts metav1.GetOptions) (*v1.User, error)
@@ -52,14 +53,12 @@ type UserInterface interface {
 // users implements UserInterface
 type users struct {
 	client rest.Interface
-	ns     string
 }
 
 // newUsers returns a Users
-func newUsers(c *StableV1Client, namespace string) *users {
+func newUsers(c *StableV1Client) *users {
 	return &users{
 		client: c.RESTClient(),
-		ns:     namespace,
 	}
 }
 
@@ -67,7 +66,6 @@ func newUsers(c *StableV1Client, namespace string) *users {
 func (c *users) Get(ctx context.Context, name string, options metav1.GetOptions) (result *v1.User, err error) {
 	result = &v1.User{}
 	err = c.client.Get().
-		Namespace(c.ns).
 		Resource("users").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
@@ -84,7 +82,6 @@ func (c *users) List(ctx context.Context, opts metav1.ListOptions) (result *v1.U
 	}
 	result = &v1.UserList{}
 	err = c.client.Get().
-		Namespace(c.ns).
 		Resource("users").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -101,7 +98,6 @@ func (c *users) Watch(ctx context.Context, opts metav1.ListOptions) (watch.Inter
 	}
 	opts.Watch = true
 	return c.client.Get().
-		Namespace(c.ns).
 		Resource("users").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -112,7 +108,6 @@ func (c *users) Watch(ctx context.Context, opts metav1.ListOptions) (watch.Inter
 func (c *users) Create(ctx context.Context, user *v1.User, opts metav1.CreateOptions) (result *v1.User, err error) {
 	result = &v1.User{}
 	err = c.client.Post().
-		Namespace(c.ns).
 		Resource("users").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(user).
@@ -125,9 +120,23 @@ func (c *users) Create(ctx context.Context, user *v1.User, opts metav1.CreateOpt
 func (c *users) Update(ctx context.Context, user *v1.User, opts metav1.UpdateOptions) (result *v1.User, err error) {
 	result = &v1.User{}
 	err = c.client.Put().
-		Namespace(c.ns).
 		Resource("users").
 		Name(user.Name).
+		VersionedParams(&opts, scheme.ParameterCodec).
+		Body(user).
+		Do(ctx).
+		Into(result)
+	return
+}
+
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+func (c *users) UpdateStatus(ctx context.Context, user *v1.User, opts metav1.UpdateOptions) (result *v1.User, err error) {
+	result = &v1.User{}
+	err = c.client.Put().
+		Resource("users").
+		Name(user.Name).
+		SubResource("status").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(user).
 		Do(ctx).
@@ -138,7 +147,6 @@ func (c *users) Update(ctx context.Context, user *v1.User, opts metav1.UpdateOpt
 // Delete takes name of the user and deletes it. Returns an error if one occurs.
 func (c *users) Delete(ctx context.Context, name string, opts metav1.DeleteOptions) error {
 	return c.client.Delete().
-		Namespace(c.ns).
 		Resource("users").
 		Name(name).
 		Body(&opts).
@@ -153,7 +161,6 @@ func (c *users) DeleteCollection(ctx context.Context, opts metav1.DeleteOptions,
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
-		Namespace(c.ns).
 		Resource("users").
 		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -166,7 +173,6 @@ func (c *users) DeleteCollection(ctx context.Context, opts metav1.DeleteOptions,
 func (c *users) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts metav1.PatchOptions, subresources ...string) (result *v1.User, err error) {
 	result = &v1.User{}
 	err = c.client.Patch(pt).
-		Namespace(c.ns).
 		Resource("users").
 		Name(name).
 		SubResource(subresources...).

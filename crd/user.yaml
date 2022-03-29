@@ -1,0 +1,8 @@
+apiVersion: stable.example.com/v1
+kind: User
+metadata:
+  name: user1
+spec:
+  email: user1@1234.com
+  password: "123123" 
+   

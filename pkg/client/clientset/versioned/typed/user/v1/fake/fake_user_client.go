@@ -29,8 +29,8 @@ type FakeStableV1 struct {
 	*testing.Fake
 }
 
-func (c *FakeStableV1) Users(namespace string) v1.UserInterface {
-	return &FakeUsers{c, namespace}
+func (c *FakeStableV1) Users() v1.UserInterface {
+	return &FakeUsers{c}
 }
 
 // RESTClient returns a RESTClient that is used to communicate
