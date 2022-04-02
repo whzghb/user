@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4919ba-f79b-4149-986b-acba5014bfac" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/signals/signal.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/signals/signal_posix.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/apis/user/v1/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/apis/user/v1/types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/apis/user/v1/zz_generated.deepcopy.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/apis/user/v1/zz_generated.deepcopy.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/fake/fake_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/fake/fake_user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/fake/fake_user_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/fake/fake_user_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/user_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/clientset/versioned/typed/user/v1/user_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/informers/externalversions/user/v1/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/informers/externalversions/user/v1/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/informers/externalversions/user/v1/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/informers/externalversions/user/v1/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/listers/user/v1/expansion_generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/listers/user/v1/expansion_generated.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/client/listers/user/v1/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/listers/user/v1/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +40,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
+    <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
