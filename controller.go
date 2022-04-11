@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/client-go/informers"
 	"time"
 
 	"github.com/golang/glog"
@@ -22,7 +24,7 @@ import (
 	userv1 "user/pkg/apis/user/v1"
 	clientset "user/pkg/client/clientset/versioned"
 	userscheme "user/pkg/client/clientset/versioned/scheme"
-	informers "user/pkg/client/informers/externalversions/user/v1"
+	userinformers "user/pkg/client/informers/externalversions/user/v1"
 	listers "user/pkg/client/listers/user/v1"
 )
 
@@ -44,6 +46,8 @@ type Controller struct {
 	usersLister listers.UserLister
 	usersSynced cache.InformerSynced
 
+	kubeInformer informers.SharedInformerFactory
+
 	workqueue workqueue.RateLimitingInterface
 
 	recorder record.EventRecorder
@@ -53,7 +57,8 @@ type Controller struct {
 func NewController(
 	kubeclientset kubernetes.Interface,
 	userclientset clientset.Interface,
-	userInformer informers.UserInformer) *Controller {
+	userInformer userinformers.UserInformer,
+	kubeInformer informers.SharedInformerFactory) *Controller {
 
 	utilruntime.Must(userscheme.AddToScheme(scheme.Scheme))
 
@@ -68,6 +73,7 @@ func NewController(
 		kubeclientset:    kubeclientset,
 		userclientset:    userclientset,
 		usersLister:      userInformer.Lister(),
+		kubeInformer:     kubeInformer,
 		usersSynced:      userInformer.Informer().HasSynced,
 		workqueue:        workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "User"),
 		recorder:         recorder,
@@ -196,6 +202,9 @@ func (c *Controller) syncHandler(key string) error {
 		runtime.HandleError(fmt.Errorf("failed to update user by: %s", key))
 	}
 	c.recorder.Event(user, corev1.EventTypeNormal, SuccessSynced, MessageResourceSynced)
+
+	nodes, _ := c.kubeInformer.Core().V1().Nodes().Lister().List(labels.Everything())
+	fmt.Println(nodes)
 	return nil
 }
 
